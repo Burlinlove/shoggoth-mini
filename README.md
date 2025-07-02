@@ -188,3 +188,13 @@ python -m shoggoth_mini orchestrate \
 - `orchestrator/orchestrator.py`, `control/closed_loop.py` and `control/idle.py` were heavily vibe-coded and have only been lightly refactored.
 - Inference using `control/closed_loop.py` leads to a tracking offset on the Y axis as compared to simulation.
 
+## Citation
+
+```bibtex
+@misc{lecauchois2025shoggothmini,
+  author = {Le Cauchois, Matthieu B.},
+  title = {Shoggoth Mini: Expressive and Functional Control of a Soft Tentacle Robot},
+  howpublished = "\url{https://github.com/mlecauchois/shoggoth-mini}",
+  year = {2025}
+}
+```

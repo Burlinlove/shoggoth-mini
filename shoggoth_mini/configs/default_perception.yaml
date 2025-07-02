@@ -21,11 +21,11 @@ perception:
   # Coordinate limits for triangulated points
   coordinate_limits:
     X:
-      clip_min: -0.20
-      clip_max: 0.20
+      clip_min: -0.15
+      clip_max: 0.15
     Y:
       clip_min: 0.0
-      clip_max: 0.43
+      clip_max: 0.3
     Z:
       clip_min: -0.7
       clip_max: -0.05
