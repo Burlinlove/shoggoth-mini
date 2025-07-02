@@ -1,4 +1,7 @@
 # Shoggoth Mini
+![System demonstration](assets/media/system.gif)
+
+
 
 ## Quick Start
 
