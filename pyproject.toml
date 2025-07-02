@@ -1,0 +1,130 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "shoggoth-mini"
+version = "0.1.0"
+description = "Shoggoth mini"
+authors = ["Matthieu Le Cauchois <lecauchoismatthieu@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+keywords = ["robotics", "spirobs", "vision", "reinforcement-learning", "mujoco", "gpt4o", "llm"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+packages = [{include = "shoggoth_mini"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+# Core dependencies
+numpy = ">=1.24.0"
+pydantic = "^2.0"
+pydantic-settings = "^2.0"
+typer = "^0.9.0"
+rich = "^13.0.0"
+pyyaml = "^6.0"
+
+# Vision dependencies
+opencv-python = ">=4.8.0"
+pillow = "*"
+mediapipe = "*"
+ultralytics = "*"
+albumentations = "<2.0"
+matplotlib = "*"
+scikit-learn = "*"
+tqdm = "*"
+
+# RL dependencies  
+gymnasium = ">=0.29.1"
+mujoco = ">=3.0.0"
+stable-baselines3 = {version = "*", extras = ["extra"]}
+torch = ">=2.1.0"
+scipy = "*"
+
+# Hardware dependencies
+pynput = "*"
+sounddevice = "*"
+websockets = "*"
+feetech-servo-sdk = "^1.0.0"
+onnx = ">=1.12.0,<1.18.0"
+onnxslim = "^0.1.58"
+onnxruntime = "^1.22.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
+pytest-cov = "^4.0.0"
+ruff = "^0.1.0"
+mypy = "^1.0.0"
+pre-commit = "^3.0.0"
+
+[tool.poetry.scripts]
+shoggoth-mini = "shoggoth_mini.cli:main"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+extend-exclude = ["src/"]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501",  # line too long, handled by formatter
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/**/*" = ["F401", "F811"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --cov=shoggoth_mini --cov-report=term-missing"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "cv2.*",
+    "mediapipe.*",
+    "mujoco.*", 
+    "stable_baselines3.*",
+    "ultralytics.*",
+    "albumentations.*",
+    "sklearn.*",
+    "sounddevice.*"
+]
+ignore_missing_imports = true 
