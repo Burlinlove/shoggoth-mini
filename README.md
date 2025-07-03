@@ -191,6 +191,15 @@ python -m shoggoth_mini orchestrate \
 - `orchestrator/orchestrator.py`, `control/closed_loop.py` and `control/idle.py` were heavily vibe-coded and have only been lightly refactored.
 - Inference using `control/closed_loop.py` leads to a tracking offset on the Y axis as compared to simulation.
 
+## Possible Extensions
+
+- Increase robustness of GPT4o layer or train from scratch (e.g. [Moshi-like](https://kyutai.org/assets/pdfs/Moshi.pdf))
+- Give it a voice (but as non-human as possible!)
+- Train more RL policies (e.g. grabbing and holding complex objects)
+- Use direct drive motors to reduce noise
+- Add more tentacles and make it crawl
+- Ditch the 2D projection control to unlock more expressive policies
+
 ## Citation
 
 ```bibtex
