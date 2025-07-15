@@ -1,11 +1,9 @@
 # Shoggoth Mini
 ![System demonstration](assets/media/system.gif)
 
-
+Shoggoth Mini is a soft-bodied tentacle robot using the [SpiRobs](https://arxiv.org/pdf/2303.09861) design, controlled through a mix of reinforcement learning and GPT-4o. Read the full blogpost [here](https://www.matthieulc.com/posts/shoggoth-mini/).
 
 ## Quick Start
-
-This guide provides the essential steps to get Shoggoth Mini up and running.
 
 ### 1. Installation
 
