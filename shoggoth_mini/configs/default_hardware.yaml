@@ -7,7 +7,7 @@ hardware:
   baudrate: 1000000
 
   # Serial port configuration
-  port: "/dev/tty.usbmodem58FA0823471"
+  port: "/dev/tty.usbmodem5AB01793401"
 
   # Calibration
   calibration_file: "assets/hardware/calibration/tentacle_calibration.json"
@@ -21,6 +21,9 @@ hardware:
   # Control parameters
   motor_settle_time: 0.01  # Time to wait for motors to reach position (seconds)
   position_tolerance: 100  # Acceptable position error in ticks
+  
+  # Calibration verification
+  verify_calibration_on_startup: true  # Check calibration accuracy when connecting to motors
   
   # Component timing parameters (Hz = updates per second)
   control_loop_hz: 200.0      # Main motor control loop frequency

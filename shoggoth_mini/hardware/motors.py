@@ -58,6 +58,10 @@ class MotorController:
             # Load calibration
             self._load_calibration()
 
+            # Check calibration accuracy if enabled
+            if getattr(self.config, 'verify_calibration_on_startup', True):
+                self._check_calibration_accuracy()
+
             self._is_connected = True
 
         except Exception as e:
@@ -242,6 +246,64 @@ class MotorController:
             self._calibration_data = {
                 name: 0 for name in self.config.motor_config.keys()
             }
+
+    def _check_calibration_accuracy(self) -> None:
+        """Check if current motor positions match calibration data."""
+        if not self._calibration_data:
+            logger.info("No calibration data available - skipping calibration verification")
+            return
+
+        # Print motor position comparison table
+        logger.info("📊 MOTOR POSITION COMPARISON")
+        logger.info("=" * 60)
+        logger.info("%-15s %-12s %-12s %-8s", "Motor", "Current", "Calibrated", "Drift")
+        logger.info("-" * 60)
+
+        mismatches = []
+        
+        try:
+            for motor_name in self.config.motor_config.keys():
+                if motor_name not in self._calibration_data:
+                    logger.info("%-15s %-12s %-12s %-8s", motor_name, "N/A", "N/A", "N/A")
+                    continue
+                    
+                current_pos = self.get_position(motor_name)
+                calibrated_pos = self._calibration_data[motor_name]
+                
+                # Calculate shortest distance considering motor's circular nature
+                if current_pos != calibrated_pos:
+                    direct_distance = abs(calibrated_pos - current_pos)
+                    total_range = 65536  # -32768 to +32767
+                    wrap_distance = total_range - direct_distance
+                    effective_distance = min(direct_distance, wrap_distance)
+                    
+                    mismatches.append({
+                        'motor': motor_name,
+                        'current': current_pos,
+                        'calibrated': calibrated_pos,
+                        'drift': effective_distance
+                    })
+                    
+                    # Mark mismatched positions with warning symbol
+                    logger.info("%-15s %-12d %-12d %-8d ⚠️", 
+                              motor_name, current_pos, calibrated_pos, effective_distance)
+                else:
+                    # Mark matched positions with checkmark
+                    logger.info("%-15s %-12d %-12d %-8s ✅", 
+                              motor_name, current_pos, calibrated_pos, "0")
+
+            logger.info("=" * 60)
+
+            if mismatches:
+                logger.warning("⚠️ CALIBRATION MISMATCH DETECTED")
+                logger.warning("Found %d motor(s) with position differences", len(mismatches))
+                logger.warning("🔧 RECOMMENDATION: Consider recalibrating for optimal performance")
+                logger.warning("   Run: python -m shoggoth_mini calibrate --config your_config.yaml")
+            else:
+                logger.info("✅ Calibration check passed - all positions match perfectly")
+                
+        except Exception as e:
+            logger.warning("Could not verify calibration accuracy: %s", e)
 
     def _verify_positions(self, target_positions: Dict[str, int]) -> None:
         """Verify that motors reached their target positions."""

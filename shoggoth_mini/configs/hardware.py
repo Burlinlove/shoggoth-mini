@@ -52,6 +52,11 @@ class HardwareConfig(BaseConfig):
         default=100, description="Acceptable position error in ticks"
     )
 
+    # Calibration verification
+    verify_calibration_on_startup: bool = Field(
+        default=True, description="Check calibration accuracy when connecting to motors"
+    )
+
     # Component timing parameters
     control_loop_hz: float = Field(
         default=50.0, description="Main motor control loop frequency (Hz)"
